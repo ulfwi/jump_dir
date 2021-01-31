@@ -86,86 +86,14 @@ jd search phrase key
 
 ## Building binaries
 
-Run './build'
+./build
+
+## Run unittests
+
+./build test
 
 ## Links
 
 Similar functionality:
 * https://github.com/wting/autojump
 * https://github.com/kigster/warp-dir
-
-## Old bash functions
-
-_get_path_from_key()
-(
-   # Check if key exists in config file
-   INPUT_KEY=$1
-
-   # Iterate over all keys in config file
-   return_dir=""
-   while read -r line
-   do
-      # Split up line by spaces and store results in array
-      word_array=($line)
-      key=${word_array[0]}
-      dir=${word_array[1]}
-
-      if [ "$INPUT_KEY" == "$key" ]; then
-         # Key found
-         return_dir=$dir
-      fi
-   done < "$JD_CONFIG"
-
-   # Key not found
-   echo $return_dir
-)
-
-_get_key_list()
-(
-   # Iterate over all keys in config file
-   key_list=""
-   while read -r line
-   do
-      # Split up line by spaces and store results in array
-      word_array=($line)
-      key=${word_array[0]}
-      dir=${word_array[1]}
-
-      # Append key to list of keys
-      key_list=$key_list" "$key
-   done < "$JD_CONFIG"
-
-   echo $key_list
-)
-
-_key_exists()
-(
-   # Check if key exists in config file
-   INPUT_KEY=$1
-
-   dir=$(/home/s0001191/repos/jump_dir/bin/get_path_from_key $JD_CONFIG $INPUT_KEY)
-   if [ "$dir" != "" ]; then
-      # Key exists
-      return 0
-   else
-      # Key does not exist
-      return 1
-   fi
-)
-
-_add_key()
-(
-   # Add new key to config file
-   new_key=$1
-   new_path=$2
-
-   # Check if key exists
-   /home/s0001191/repos/jump_dir/bin/key_exists $JD_CONFIG $new_key
-   if [ $? == 1 ] ; then
-      line=$new_key" "$new_path
-      echo $line >> $JD_CONFIG
-      echo "Key \"$new_key\" with path \"$new_path\" added to config file"
-   else
-      echo "Key \"$new_key\" already exists with path \"$(/home/s0001191/repos/jump_dir/bin/get_path_from_key $JD_CONFIG $new_key)\""
-   fi
-)
