@@ -4,6 +4,7 @@
 
 if [ "$1" == "test" ]; then
     # Run tests
+    mkdir -p bin/test
     g++ src/jump_dir_core.cpp src/test.cpp -o bin/test/test_jump_dir
     bin/test/test_jump_dir
 else
