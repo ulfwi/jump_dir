@@ -2,7 +2,7 @@
 # This file adds the function jd and also adds all
 # keys in JD_CONFIG to bash completion.
 
-JD_DIR="/home/s0001191/repos/scripts/jump_dir"
+JD_DIR="/home/s0001191/repos/jump_dir"
 JD_CONFIG=$JD_DIR"/jump_dir.config"
 
 _jd()

@@ -13,9 +13,9 @@ You can also store shortcuts to files here and open them in nano.
 
 ## Setup
 
-To setup jump dir you should add the following line to .bahsrc (or similar):
+To setup jump dir you should add the following line to .bashrc (or similar):
 
-source /home/s0001191/repos/scripts/jump_dir/jump_dir.sh
+source /path/to/jump_dir/jump_dir.sh
 
 This adds the function jd() which runs the script in the current shell. This is needed to be able to change directory. If you run the script in a separate shell it will only change directory for that shell, not your current shell.
 
@@ -143,7 +143,7 @@ _key_exists()
    # Check if key exists in config file
    INPUT_KEY=$1
 
-   dir=$(/home/s0001191/repos/scripts/jump_dir/bin/get_path_from_key $JD_CONFIG $INPUT_KEY)
+   dir=$(/home/s0001191/repos/jump_dir/bin/get_path_from_key $JD_CONFIG $INPUT_KEY)
    if [ "$dir" != "" ]; then
       # Key exists
       return 0
@@ -160,12 +160,12 @@ _add_key()
    new_path=$2
 
    # Check if key exists
-   /home/s0001191/repos/scripts/jump_dir/bin/key_exists $JD_CONFIG $new_key
+   /home/s0001191/repos/jump_dir/bin/key_exists $JD_CONFIG $new_key
    if [ $? == 1 ] ; then
       line=$new_key" "$new_path
       echo $line >> $JD_CONFIG
       echo "Key \"$new_key\" with path \"$new_path\" added to config file"
    else
-      echo "Key \"$new_key\" already exists with path \"$(/home/s0001191/repos/scripts/jump_dir/bin/get_path_from_key $JD_CONFIG $new_key)\""
+      echo "Key \"$new_key\" already exists with path \"$(/home/s0001191/repos/jump_dir/bin/get_path_from_key $JD_CONFIG $new_key)\""
    fi
 )
