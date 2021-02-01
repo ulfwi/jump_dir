@@ -10,6 +10,7 @@ You can also store shortcuts to files here and open them in nano.
 * Check if it's a valid path to a dir or file (what if it's on a mount path?)
 * Add check so that we don't try to add keys with names that are the same as the options
 * Add color to prints? https://github.com/owenthereal/ccat
+* Add autocompletion for paths when trying to add a key.
 
 ## Setup
 
