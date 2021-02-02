@@ -8,10 +8,10 @@ if [ "$1" == "test" ]; then
     g++ src/jump_dir_core.cpp src/test.cpp -o bin/test/test_jump_dir
     bin/test/test_jump_dir
 else
-    g++ src/jump_dir_core.cpp src/main.cpp -DGET_KEY_LIST -o bin/get_key_list
-    g++ src/jump_dir_core.cpp src/main.cpp -DGET_PATH_FROM_KEY -o bin/get_path_from_key
-    g++ src/jump_dir_core.cpp src/main.cpp -DKEY_EXISTS -o bin/key_exists
-    g++ src/jump_dir_core.cpp src/main.cpp -DADD_KEY -o bin/add_key
-    g++ src/jump_dir_core.cpp src/main.cpp -DREMOVE_KEY -o bin/remove_key
-    g++ src/jump_dir_core.cpp src/main.cpp -DIS_CONFIG_FILE_VALID -o bin/is_config_file_valid
+    g++ src/jump_dir_core.cpp src/get_key_list_main.cpp -o bin/get_key_list
+    g++ src/jump_dir_core.cpp src/get_path_from_key_main.cpp -o bin/get_path_from_key
+    g++ src/jump_dir_core.cpp src/key_exists_main.cpp -o bin/key_exists
+    g++ src/jump_dir_core.cpp src/add_key_main.cpp -o bin/add_key
+    g++ src/jump_dir_core.cpp src/remove_key_main.cpp -o bin/remove_key
+    g++ src/jump_dir_core.cpp src/is_config_file_valid_main.cpp -o bin/is_config_file_valid
 fi
