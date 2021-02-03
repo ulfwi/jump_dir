@@ -8,6 +8,8 @@ if [ "$1" == "test" ]; then
     g++ src/jump_dir_core.cpp src/test/test.cpp -Isrc -o bin/test/test_jump_dir
     bin/test/test_jump_dir
 
+    echo ""
+
     ./src/test/integration_test.sh
 else
     g++ src/jump_dir_core.cpp src/main/get_key_list_main.cpp -Isrc -o bin/get_key_list
