@@ -115,8 +115,6 @@ TEST(get_key_list)
 
 int main(int argc, char *argv[])
 {
-    std::cout << "Running jump_dir tests..." << std::endl;
     RUN_UNITTESTS();
-    std::cout << "All tests passed!" << std::endl;
     return 0;
 }
