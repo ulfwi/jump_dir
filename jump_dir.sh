@@ -91,8 +91,8 @@ jd()
       echo ""
       echo "   jd show key                Show path corresponding to key"
       echo ""
-      echo "   jd vscode key              Open path corresponding to key with vscode"
-      echo ""
+      echo "   jd vscode key              Open path corresponding to key with vscode If no"
+      echo "                              key is supplied the current dir is opened."
       echo "   jd cat key                 Display contents of file corresponding to key"
       echo ""
       echo "   jd search phrase key       Search for phrase in path corresponding to key"
@@ -172,7 +172,7 @@ jd()
             printf "Key \'$key\' does not exist\n"
          fi
       else
-         printf "No key chosen\n"
+         code -n .
       fi
       ;;
    show)
