@@ -9,9 +9,6 @@ typedef void (*unittest_fp)();
 class AssertionHandler
 {
     public:
-        bool unittest_failed = false;
-        std::stringstream error_message;
-
         void assert_condition(bool const cond, uint32_t const line_nbr, std::string const condition_string)
         {
             if (!cond)
@@ -21,6 +18,26 @@ class AssertionHandler
                 error_message << "    " << condition_string << std::endl << std::endl;
             }
         }
+
+        void reset()
+        {
+            unittest_failed = false;
+            error_message.str("");
+        }
+
+        bool get_unittest_failed()
+        {
+            return unittest_failed;
+        }
+
+        std::string get_error_message()
+        {
+            return error_message.str();
+        }
+
+    private:
+        bool unittest_failed = false;
+        std::stringstream error_message;
 
 } assertion_handler;
 
@@ -62,12 +79,11 @@ class UnittestHandler
                 std::cout << "Running " << unittest.name << "...";
                 unittest.run();
 
-                if (assertion_handler.unittest_failed)
+                if (assertion_handler.get_unittest_failed())
                 {
                     std::cout << set_text_red << "FAIL" << set_text_white << std::endl;
-                    std::cout << assertion_handler.error_message.str();
-                    assertion_handler.unittest_failed = false;
-                    assertion_handler.error_message.str("");
+                    std::cout << assertion_handler.get_error_message();
+                    assertion_handler.reset();
                     any_unittest_failed = true;
                 }
                 else
