@@ -37,21 +37,21 @@ class AssertionHandler
 
 };
 
-// Unittest function pointer type
-typedef void (*unittest_fp)(AssertionHandler&);
-
 // Contains info about a unittest
 class Unittest
 {
     public:
+        // Unittest function pointer type
+        typedef void (*FunctionPointer)(AssertionHandler&);
+
         struct Status
         {
             bool unittest_failed;
             std::string error_message;
         };
 
-        Unittest(unittest_fp const fp, std::string const name) :
-        fp{fp},
+        Unittest(FunctionPointer const function_pointer, std::string const name) :
+        function_pointer{function_pointer},
         name{name}
         {
         }
@@ -59,14 +59,14 @@ class Unittest
         Status run() const
         {
             AssertionHandler assertion_handler{};
-            (*fp)(assertion_handler);
+            function_pointer(assertion_handler);
 
             bool const unittest_failed = assertion_handler.get_unittest_failed();
             std::string const error_message = assertion_handler.get_error_message();
             return Status{unittest_failed, error_message};
         }
 
-    unittest_fp const fp;
+    FunctionPointer const function_pointer;
     std::string const name;
 };
 
@@ -126,7 +126,7 @@ class UnittestHandler
 class UnittestDeclaration
 {
     public:
-        UnittestDeclaration(unittest_fp const fp, std::string const name)
+        UnittestDeclaration(Unittest::FunctionPointer const fp, std::string const name)
         {
             unittest_handler.add_unittest(Unittest{fp, name});
         }
