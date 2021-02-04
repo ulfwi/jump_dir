@@ -11,7 +11,7 @@ class Unittest;
 // List containing all unittests
 std::list<Unittest> unittest_list;
 
-// The constructor of this class adds itself to the list of unittests
+// Contains info about a unittest
 class Unittest
 {
     public:
@@ -19,7 +19,6 @@ class Unittest
         fp{fp},
         name{name}
         {
-            unittest_list.push_back(*this);
         }
 
         void run() const
@@ -31,12 +30,22 @@ class Unittest
     std::string const name;
 };
 
+// Adds unittest to list
+class UnittestDeclaration
+{
+    public:
+        UnittestDeclaration(unittest_fp const fp, std::string const name)
+        {
+            unittest_list.push_back(Unittest{fp, name});
+        }
+};
+
 // This macro creates a function with the name test_##test_name()
 // Then it calls the constructor of the class Unittest which adds that
 // unittest to a list
 #define TEST(test_name) \
 void test_##test_name(); \
-Unittest unittest_##test_name(test_##test_name, "test_"#test_name); \
+UnittestDeclaration unittest_declaration_##test_name(test_##test_name, "test_"#test_name); \
 void test_##test_name() \
 
 static bool unittest_failed = false;
