@@ -6,6 +6,24 @@
 // Unittest function pointer type
 typedef void (*unittest_fp)();
 
+class AssertionHandler
+{
+    public:
+        bool unittest_failed = false;
+        std::stringstream error_message;
+
+        void assert_condition(bool const cond, uint32_t const line_nbr, std::string const condition_string)
+        {
+            if (!cond)
+            {
+                unittest_failed = true;
+                error_message << "Failing assert at line " << line_nbr << ":" << std::endl;
+                error_message << "    " << condition_string << std::endl << std::endl;
+            }
+        }
+
+} assertion_handler;
+
 // Contains info about a unittest
 class Unittest
 {
@@ -24,9 +42,6 @@ class Unittest
     unittest_fp const fp;
     std::string const name;
 };
-
-static bool unittest_failed = false;
-static std::stringstream error_message;
 
 class UnittestHandler
 {
@@ -47,12 +62,12 @@ class UnittestHandler
                 std::cout << "Running " << unittest.name << "...";
                 unittest.run();
 
-                if (unittest_failed)
+                if (assertion_handler.unittest_failed)
                 {
                     std::cout << set_text_red << "FAIL" << set_text_white << std::endl;
-                    std::cout << error_message.str();
-                    unittest_failed = false;
-                    error_message.str("");
+                    std::cout << assertion_handler.error_message.str();
+                    assertion_handler.unittest_failed = false;
+                    assertion_handler.error_message.str("");
                     any_unittest_failed = true;
                 }
                 else
@@ -102,17 +117,7 @@ void test_##test_name() \
 
 #define RUN_UNITTESTS() (unittest_handler.run_unittests())
 
-void assert_condition(bool const cond, uint32_t const line_nbr, std::string const condition_string)
-{
-    if (!cond)
-    {
-        unittest_failed = true;
-        error_message << "Failing assert at line " << line_nbr << ":" << std::endl;
-        error_message << "    " << condition_string << std::endl << std::endl;
-    }
-}
-
-#define ASSERT_WRAPPER(cond) (assert_condition(cond, __LINE__, #cond))
+#define ASSERT_WRAPPER(cond) (assertion_handler.assert_condition(cond, __LINE__, #cond))
 
 // Asserts
 #define ASSERT_TRUE(cond) (ASSERT_WRAPPER(cond))

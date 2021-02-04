@@ -11,8 +11,6 @@ You can also store shortcuts to files here and open them in nano.
 * Add check so that we don't try to add keys with names that are the same as the options
 * Add color to prints? https://github.com/owenthereal/ccat
 * Add autocompletion for paths when trying to add a key.
-* Split up unittest classes.
-    * Add classes UnittestHandler (singleton), UnittestDeclaration (created everytime you use TEST()), AssertionHandler (singleton)
 
 ## Setup
 
