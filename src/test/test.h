@@ -40,27 +40,30 @@ class AssertionHandler
 // Unittest function pointer type
 typedef void (*unittest_fp)(AssertionHandler&);
 
-struct UnittestStatus
-{
-    bool unittest_failed;
-    std::string error_message;
-};
-
 // Contains info about a unittest
 class Unittest
 {
     public:
+        struct Status
+        {
+            bool unittest_failed;
+            std::string error_message;
+        };
+
         Unittest(unittest_fp const fp, std::string const name) :
         fp{fp},
         name{name}
         {
         }
 
-        UnittestStatus run() const
+        Status run() const
         {
             AssertionHandler assertion_handler{};
             (*fp)(assertion_handler);
-            return UnittestStatus{assertion_handler.get_unittest_failed(), assertion_handler.get_error_message()};
+
+            bool const unittest_failed = assertion_handler.get_unittest_failed();
+            std::string const error_message = assertion_handler.get_error_message();
+            return Status{unittest_failed, error_message};
         }
 
     unittest_fp const fp;
@@ -84,7 +87,7 @@ class UnittestHandler
             for (auto const unittest : unittest_list)
             {
                 std::cout << "Running " << unittest.name << "...";
-                UnittestStatus status = unittest.run();
+                Unittest::Status status = unittest.run();
 
                 if (status.unittest_failed)
                 {

@@ -113,7 +113,7 @@ TEST(get_key_list)
 }
 
 
-int main(int argc, char *argv[])
+int main()
 {
     RUN_UNITTESTS();
     return 0;
