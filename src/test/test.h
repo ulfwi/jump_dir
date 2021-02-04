@@ -21,6 +21,17 @@ class AssertionHandler
             }
         }
 
+        void assert_string_equal(std::string const str1, std::string const str2, uint32_t const line_nbr)
+        {
+            bool const string_equal = (str1.compare(str2) == 0);
+            if (!string_equal)
+            {
+                unittest_failed = true;
+                error_message << "Failing assert at line " << line_nbr << ". Asserting strings equal:" << std::endl;
+                error_message << "    " << str1 << " == " << str2 << std::endl << std::endl;
+            }
+        }
+
         bool get_unittest_failed()
         {
             return unittest_failed;
@@ -70,6 +81,7 @@ class Unittest
     std::string const name;
 };
 
+// Singleton class which handles the execution and output of all unittests
 class UnittestHandler
 {
     public:
@@ -122,7 +134,7 @@ class UnittestHandler
 
 } unittest_handler;
 
-// Adds unittest to list
+// Adds unittest to list in unittest_handler
 class UnittestDeclaration
 {
     public:
@@ -133,8 +145,8 @@ class UnittestDeclaration
 };
 
 // This macro creates a function with the name test_##test_name()
-// Then it calls the constructor of the class Unittest which adds that
-// unittest to a list
+// Then it calls the constructor of the class UnittestDeclaration which adds that
+// unittest to a list in unittest_handler
 #define TEST(test_name) \
 void test_##test_name(AssertionHandler &assertion_handler); \
 UnittestDeclaration unittest_declaration_##test_name(test_##test_name, "test_"#test_name); \
@@ -148,4 +160,4 @@ void test_##test_name(AssertionHandler &assertion_handler) \
 #define ASSERT_TRUE(cond) (ASSERT_WRAPPER(cond))
 #define ASSERT_FALSE(cond) (ASSERT_WRAPPER(!(cond)))
 #define ASSERT_EQUAL(a, b) (ASSERT_WRAPPER(a == b))
-#define ASSERT_STRING_EQUAL(a, b) (ASSERT_WRAPPER(a.compare(b) == 0))
+#define ASSERT_STRING_EQUAL(a, b) (assertion_handler.assert_string_equal(a, b, __LINE__))
