@@ -96,7 +96,7 @@ class UnittestHandler
             bool any_unittest_failed = false;
 
             std::cout << "Running unittests..." << std::endl;
-            for (auto const unittest : unittest_list)
+            for (Unittest const unittest : unittest_list)
             {
                 std::cout << "Running " << unittest.name << "...";
                 Unittest::Status status = unittest.run();

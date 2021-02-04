@@ -6,6 +6,10 @@ if [ "$1" == "test" ]; then
     # Run tests
     mkdir -p bin/test
     g++ src/jump_dir_core.cpp src/test/test.cpp -Isrc -o bin/test/test_jump_dir
+
+    # Generate preprocessed file
+    # g++ src/jump_dir_core.cpp src/test/test.cpp -Isrc -E >> bin/test/test_jump_dir.preprocessor.cpp
+
     bin/test/test_jump_dir
 
     echo ""
