@@ -51,45 +51,53 @@ void test_##test_name() \
 static bool unittest_failed = false;
 static std::stringstream error_message;
 
-// Runs all unittests in unittest_list
-void RUN_UNITTESTS()
+class UnittestHandler
 {
-    // Colours
-    std::string const set_text_red = "\033[1;31m";
-    std::string const set_text_green = "\033[1;32m";
-    std::string const set_text_white = "\033[0m";
-
-    bool any_unittest_failed = false;
-
-    std::cout << "Running unittests..." << std::endl;
-    for (auto const unittest : unittest_list)
-    {
-        std::cout << "Running " << unittest.name << "...";
-        unittest.run();
-
-        if (unittest_failed)
+    public:
+        // Runs all unittests in unittest_list
+        void run_unittests()
         {
-            std::cout << set_text_red << "FAIL" << set_text_white << std::endl;
-            std::cout << error_message.str();
-            unittest_failed = false;
-            error_message.str("");
-            any_unittest_failed = true;
-        }
-        else
-        {
-            std::cout << set_text_green << "OK" << set_text_white << std::endl;
-        }
-    }
+            bool any_unittest_failed = false;
 
-    if (any_unittest_failed)
-    {
-        std::cout << set_text_red << "Unittests failed!" << set_text_white << std::endl;
-    }
-    else
-    {
-        std::cout << set_text_green << "All unittests passed!" << set_text_white << std::endl;
-    }
-}
+            std::cout << "Running unittests..." << std::endl;
+            for (auto const unittest : unittest_list)
+            {
+                std::cout << "Running " << unittest.name << "...";
+                unittest.run();
+
+                if (unittest_failed)
+                {
+                    std::cout << set_text_red << "FAIL" << set_text_white << std::endl;
+                    std::cout << error_message.str();
+                    unittest_failed = false;
+                    error_message.str("");
+                    any_unittest_failed = true;
+                }
+                else
+                {
+                    std::cout << set_text_green << "OK" << set_text_white << std::endl;
+                }
+            }
+
+            if (any_unittest_failed)
+            {
+                std::cout << set_text_red << "Unittests failed!" << set_text_white << std::endl;
+            }
+            else
+            {
+                std::cout << set_text_green << "All unittests passed!" << set_text_white << std::endl;
+            }
+        }
+
+    private:
+        // Colours
+        std::string const set_text_red = "\033[1;31m";
+        std::string const set_text_green = "\033[1;32m";
+        std::string const set_text_white = "\033[0m";
+
+} unittest_handler;
+
+#define RUN_UNITTESTS() (unittest_handler.run_unittests())
 
 void assert_condition(bool const cond, uint32_t const line_nbr, std::string const condition_string)
 {
