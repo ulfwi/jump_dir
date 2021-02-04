@@ -3,12 +3,14 @@
 #include <iostream>
 #include <sstream>
 
-// Unittest function pointer type
-typedef void (*unittest_fp)();
-
 class AssertionHandler
 {
     public:
+        AssertionHandler() :
+        unittest_failed{false},
+        error_message{}
+        {}
+
         void assert_condition(bool const cond, uint32_t const line_nbr, std::string const condition_string)
         {
             if (!cond)
@@ -17,12 +19,6 @@ class AssertionHandler
                 error_message << "Failing assert at line " << line_nbr << ":" << std::endl;
                 error_message << "    " << condition_string << std::endl << std::endl;
             }
-        }
-
-        void reset()
-        {
-            unittest_failed = false;
-            error_message.str("");
         }
 
         bool get_unittest_failed()
@@ -36,10 +32,19 @@ class AssertionHandler
         }
 
     private:
-        bool unittest_failed = false;
+        bool unittest_failed;
         std::stringstream error_message;
 
-} assertion_handler;
+};
+
+// Unittest function pointer type
+typedef void (*unittest_fp)(AssertionHandler&);
+
+struct UnittestStatus
+{
+    bool unittest_failed;
+    std::string error_message;
+};
 
 // Contains info about a unittest
 class Unittest
@@ -51,9 +56,11 @@ class Unittest
         {
         }
 
-        void run() const
+        UnittestStatus run() const
         {
-            (*fp)();
+            AssertionHandler assertion_handler{};
+            (*fp)(assertion_handler);
+            return UnittestStatus{assertion_handler.get_unittest_failed(), assertion_handler.get_error_message()};
         }
 
     unittest_fp const fp;
@@ -77,13 +84,12 @@ class UnittestHandler
             for (auto const unittest : unittest_list)
             {
                 std::cout << "Running " << unittest.name << "...";
-                unittest.run();
+                UnittestStatus status = unittest.run();
 
-                if (assertion_handler.get_unittest_failed())
+                if (status.unittest_failed)
                 {
                     std::cout << set_text_red << "FAIL" << set_text_white << std::endl;
-                    std::cout << assertion_handler.get_error_message();
-                    assertion_handler.reset();
+                    std::cout << status.error_message;
                     any_unittest_failed = true;
                 }
                 else
@@ -127,9 +133,9 @@ class UnittestDeclaration
 // Then it calls the constructor of the class Unittest which adds that
 // unittest to a list
 #define TEST(test_name) \
-void test_##test_name(); \
+void test_##test_name(AssertionHandler &assertion_handler); \
 UnittestDeclaration unittest_declaration_##test_name(test_##test_name, "test_"#test_name); \
-void test_##test_name() \
+void test_##test_name(AssertionHandler &assertion_handler) \
 
 #define RUN_UNITTESTS() (unittest_handler.run_unittests())
 
