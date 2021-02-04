@@ -6,11 +6,6 @@
 // Unittest function pointer type
 typedef void (*unittest_fp)();
 
-class Unittest;
-
-// List containing all unittests
-std::list<Unittest> unittest_list;
-
 // Contains info about a unittest
 class Unittest
 {
@@ -30,30 +25,17 @@ class Unittest
     std::string const name;
 };
 
-// Adds unittest to list
-class UnittestDeclaration
-{
-    public:
-        UnittestDeclaration(unittest_fp const fp, std::string const name)
-        {
-            unittest_list.push_back(Unittest{fp, name});
-        }
-};
-
-// This macro creates a function with the name test_##test_name()
-// Then it calls the constructor of the class Unittest which adds that
-// unittest to a list
-#define TEST(test_name) \
-void test_##test_name(); \
-UnittestDeclaration unittest_declaration_##test_name(test_##test_name, "test_"#test_name); \
-void test_##test_name() \
-
 static bool unittest_failed = false;
 static std::stringstream error_message;
 
 class UnittestHandler
 {
     public:
+        void add_unittest(Unittest unittest)
+        {
+            unittest_list.push_back(unittest);
+        }
+
         // Runs all unittests in unittest_list
         void run_unittests()
         {
@@ -90,12 +72,33 @@ class UnittestHandler
         }
 
     private:
+        // List containing all unittests
+        std::list<Unittest> unittest_list;
+
         // Colours
         std::string const set_text_red = "\033[1;31m";
         std::string const set_text_green = "\033[1;32m";
         std::string const set_text_white = "\033[0m";
 
 } unittest_handler;
+
+// Adds unittest to list
+class UnittestDeclaration
+{
+    public:
+        UnittestDeclaration(unittest_fp const fp, std::string const name)
+        {
+            unittest_handler.add_unittest(Unittest{fp, name});
+        }
+};
+
+// This macro creates a function with the name test_##test_name()
+// Then it calls the constructor of the class Unittest which adds that
+// unittest to a list
+#define TEST(test_name) \
+void test_##test_name(); \
+UnittestDeclaration unittest_declaration_##test_name(test_##test_name, "test_"#test_name); \
+void test_##test_name() \
 
 #define RUN_UNITTESTS() (unittest_handler.run_unittests())
 
