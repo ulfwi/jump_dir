@@ -32,16 +32,11 @@ TEST(add_key)
     remove(temp_config_file.c_str());
 }
 
-TEST(get_path_from_key)
+TEST(get_path_from_key_valid_file)
 {
     std::string const temp_config_file = "temp.config";
     std::ofstream outfile(temp_config_file, std::ios::app);
     std::string output_str;
-
-    // Test getting paths from empty config file
-    ASSERT_EQUAL(get_path_from_key(temp_config_file, "", output_str), NOT_OK);
-    ASSERT_EQUAL(get_path_from_key(temp_config_file, "test_key", output_str), NOT_OK);
-    ASSERT_STRING_EQUAL(output_str, "");
 
     // Test getting paths from keys
     outfile << "test_key" << " " << "path/for/test" << std::endl;
@@ -52,9 +47,41 @@ TEST(get_path_from_key)
     ASSERT_EQUAL(get_path_from_key(temp_config_file, "test_key1", output_str), OK);
     ASSERT_STRING_EQUAL(output_str, "path/for/test1");
 
-    // Test faulty config file
-    ASSERT_EQUAL(get_path_from_key("", "test_key", output_str), NOT_OK);
+    remove(temp_config_file.c_str());
+}
 
+TEST(get_path_from_key_empty_file)
+{
+    std::string const temp_config_file = "temp.config";
+    std::ofstream outfile(temp_config_file, std::ios::app);
+    std::string output_str;
+
+    // Test getting paths from empty config file
+    ASSERT_EQUAL(get_path_from_key(temp_config_file, "", output_str), NOT_OK);
+    ASSERT_EQUAL(get_path_from_key(temp_config_file, "test_key", output_str), NOT_OK);
+    ASSERT_STRING_EQUAL(output_str, "");
+
+    remove(temp_config_file.c_str());
+}
+
+TEST(get_path_from_key_nonexisting_file)
+{
+    std::string output_str;
+
+    // Test nonexisting config file
+    ASSERT_EQUAL(get_path_from_key("", "test_key", output_str), NOT_OK);
+    ASSERT_STRING_EQUAL(output_str, "");
+}
+
+TEST(get_path_from_key_invalid_file)
+{
+    std::string const temp_config_file = "temp.config";
+    std::ofstream outfile(temp_config_file, std::ios::app);
+    std::string output_str;
+
+    // Test faulty config file
+    outfile << "test_key" << " " << "path/for/test" << std::endl;
+    outfile << "test_key1" << " " << "path/for/test1" << std::endl;
     outfile << "hej" << " " << "" << std::endl;
 
     ASSERT_EQUAL(get_path_from_key(temp_config_file, "hej", output_str), NOT_OK);
