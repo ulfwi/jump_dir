@@ -112,6 +112,59 @@ TEST(get_key_list)
     remove(temp_config_file.c_str());
 }
 
+TEST(is_config_file_valid_empty_file)
+{
+    std::string const temp_config_file = "temp.config";
+    std::ofstream outfile(temp_config_file, std::ios::app);
+
+    // Test empty config file
+    ASSERT_TRUE(is_config_file_valid(temp_config_file));
+
+    remove(temp_config_file.c_str());
+}
+
+TEST(is_config_file_valid_valid_file)
+{
+    std::string const temp_config_file = "temp.config";
+    std::ofstream outfile(temp_config_file, std::ios::app);
+
+    outfile << "test_key" << " " << "path/for/test" << std::endl;
+    outfile << "test_key1" << " " << "path/for/test1" << std::endl;
+
+    // Test valid file
+    ASSERT_TRUE(is_config_file_valid(temp_config_file));
+
+    // Should pass adding three entries as well
+    outfile << "one" << " " << "two" << " " << "three" << std::endl;
+    ASSERT_TRUE(is_config_file_valid(temp_config_file));
+
+    remove(temp_config_file.c_str());
+}
+
+TEST(is_config_file_valid_nonexisting_file)
+{
+    // Test non existing file
+    ASSERT_FALSE(is_config_file_valid("no.config"));
+}
+
+TEST(is_config_file_valid_invalid_file)
+{
+    std::string const temp_config_file = "temp.config";
+    std::ofstream outfile(temp_config_file, std::ios::app);
+
+    outfile << "test_key" << " " << "path/for/test" << std::endl;
+    outfile << "test_key1" << std::endl;
+
+    // Test file with too few entries
+    ASSERT_FALSE(is_config_file_valid(temp_config_file));
+
+    // Test again with faulty entry in the middle
+    outfile << "key" << " " << "path" << std::endl;
+    ASSERT_FALSE(is_config_file_valid(temp_config_file));
+
+    remove(temp_config_file.c_str());
+}
+
 
 int main()
 {
