@@ -1,3 +1,3 @@
 #!/bin/bash
 
-clang-tidy src/jump_dir_core.cpp --checks='*,-modernize-use-trailing-return-type,-llvm-header-guard' -header-filter=.* --
+clang-tidy src/jump_dir_core.cpp --checks='*,-modernize-use-trailing-return-type,-llvm-header-guard,-google-runtime-references' -header-filter=.* --

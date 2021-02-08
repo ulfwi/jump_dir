@@ -78,14 +78,8 @@ bool key_exists(std::string const& config_file, std::string const& input_key)
 {
     // Check return status to see if it was found
     std::string output_str;
-    if (get_path_from_key(config_file, input_key, output_str) == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    bool const key_found = (get_path_from_key(config_file, input_key, output_str) == OK);
+    return key_found;
 }
 
 status add_key(std::string const& config_file, std::string const& new_key, std::string const& new_path)
@@ -95,21 +89,25 @@ status add_key(std::string const& config_file, std::string const& new_key, std::
         return NOT_OK;
     }
 
+    status operation_status = NOT_OK;
     if (!key_exists(config_file, new_key))
     {
         // Open config file in append mode
         std::ofstream out(config_file, std::ios::app);
         out << new_key << " " << new_path << std::endl;
-        return OK;
+        operation_status = OK;
     }
     else
     {
-        return NOT_OK;
+        operation_status = NOT_OK;
     }
+
+    return operation_status;
 }
 
 status remove_key(std::string const& config_file, std::string const& key_to_remove)
 {
+    status removal_status = NOT_OK;
     if (key_exists(config_file, key_to_remove))
     {
         std::ifstream infile(config_file, std::ios::in);
@@ -148,12 +146,14 @@ status remove_key(std::string const& config_file, std::string const& key_to_remo
         remove(config_file.c_str());
         rename(temp_file.c_str(), config_file.c_str());
 
-        return OK;
+        removal_status = OK;
     }
     else
     {
-        return NOT_OK;
+        removal_status = NOT_OK;
     }
+
+    return removal_status;
 }
 
 bool is_config_file_valid(std::string const& config_file)
