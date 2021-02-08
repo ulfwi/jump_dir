@@ -1,23 +1,23 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include "jump_dir_core.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 
 status get_path_from_key(std::string const& config_file, std::string const& input_key, std::string& output_str)
 {
-    std::ifstream infile(config_file);
+    std::ifstream infile(config_file, std::ios::in);
     std::string line;
     while (std::getline(infile, line))
     {
-        std::istringstream iss(line);
+        std::istringstream iss(line, std::ios::in);
 
         // Read words into variables
         std::string key;
         std::string path;
         if (iss >> key >> path)
         {
-            if (input_key.compare(key) == 0)
+            if (input_key == key)
             {
                 output_str.assign(path);
                 return OK;
@@ -35,7 +35,7 @@ status get_path_from_key(std::string const& config_file, std::string const& inpu
 
 status get_key_list(std::string const& config_file, std::string& output_str)
 {
-    std::ifstream infile(config_file);
+    std::ifstream infile(config_file, std::ios::in);
     if (infile.fail())
     {
         // Failed to open file
@@ -46,7 +46,7 @@ status get_key_list(std::string const& config_file, std::string& output_str)
     bool first_line = true;
     while (std::getline(infile, line))
     {
-        std::istringstream iss(line);
+        std::istringstream iss(line, std::ios::in);
 
         // Read words into variables
         std::string key;
@@ -112,10 +112,10 @@ status remove_key(std::string const& config_file, std::string const& key_to_remo
 {
     if (key_exists(config_file, key_to_remove))
     {
-        std::ifstream infile(config_file);
+        std::ifstream infile(config_file, std::ios::in);
         std::string temp_file = config_file;
         temp_file.append(".temp");
-        std::ofstream outfile(temp_file);
+        std::ofstream outfile(temp_file, std::ios::out);
 
         if (outfile.fail())
         {
@@ -126,13 +126,13 @@ status remove_key(std::string const& config_file, std::string const& key_to_remo
         std::string line;
         while (std::getline(infile, line))
         {
-            std::istringstream iss(line);
+            std::istringstream iss(line, std::ios::in);
             std::string key;
             if (iss >> key)
             {
                 // Write all lines except the one we should remove from
                 // config to temporary file
-                if (key_to_remove.compare(key) != 0)
+                if (key_to_remove != key)
                 {
                     outfile << line << std::endl;
                 }
@@ -158,7 +158,7 @@ status remove_key(std::string const& config_file, std::string const& key_to_remo
 
 bool is_config_file_valid(std::string const& config_file)
 {
-    std::ifstream infile(config_file);
+    std::ifstream infile(config_file, std::ios::in);
     if (!infile)
     {
         // File doesn't exist
@@ -168,7 +168,7 @@ bool is_config_file_valid(std::string const& config_file)
     std::string line;
     while (std::getline(infile, line))
     {
-        std::istringstream iss(line);
+        std::istringstream iss(line, std::ios::in);
 
         // Read words into variables
         std::string key;

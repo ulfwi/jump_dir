@@ -1,8 +1,7 @@
-#include <string>
-
-
 #ifndef JUMP_DIR_CORE_H
 #define JUMP_DIR_CORE_H
+
+#include <string>
 
 enum status
 {
