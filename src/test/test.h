@@ -1,17 +1,14 @@
-#include <list>
-#include <string>
 #include <iostream>
+#include <list>
 #include <sstream>
+#include <string>
 
 class AssertionHandler
 {
     public:
-        AssertionHandler() :
-        unittest_failed{false},
-        error_message{}
-        {}
+        AssertionHandler() = default;
 
-        void assert_condition(bool const cond, uint32_t const line_nbr, std::string const condition_string)
+        void assert_condition(bool const cond, uint32_t const line_nbr, std::string const& condition_string)
         {
             if (!cond)
             {
@@ -21,9 +18,9 @@ class AssertionHandler
             }
         }
 
-        void assert_string_equal(std::string const str1, std::string const str2, uint32_t const line_nbr)
+        void assert_string_equal(std::string const& str1, std::string const& str2, uint32_t const line_nbr)
         {
-            bool const string_equal = (str1.compare(str2) == 0);
+            bool const string_equal = (str1 == str2);
             if (!string_equal)
             {
                 unittest_failed = true;
@@ -32,7 +29,7 @@ class AssertionHandler
             }
         }
 
-        bool get_unittest_failed()
+        bool get_unittest_failed() const
         {
             return unittest_failed;
         }
@@ -43,7 +40,7 @@ class AssertionHandler
         }
 
     private:
-        bool unittest_failed;
+        bool unittest_failed{false};
         std::stringstream error_message;
 
 };
@@ -61,9 +58,9 @@ class Unittest
             std::string error_message;
         };
 
-        Unittest(FunctionPointer const function_pointer, std::string const name) :
+        Unittest(FunctionPointer const function_pointer, std::string name) :
         function_pointer{function_pointer},
-        name{name}
+        name{std::move(name)}
         {
         }
 
@@ -85,7 +82,7 @@ class Unittest
 class UnittestHandler
 {
     public:
-        void add_unittest(Unittest unittest)
+        void add_unittest(Unittest const& unittest)
         {
             unittest_list.push_back(unittest);
         }
@@ -96,7 +93,7 @@ class UnittestHandler
             bool any_unittest_failed = false;
 
             std::cout << "Running unittests..." << std::endl;
-            for (Unittest const unittest : unittest_list)
+            for (Unittest const& unittest : unittest_list)
             {
                 std::cout << "Running " << unittest.name << "...";
                 Unittest::Status status = unittest.run();
@@ -138,7 +135,7 @@ class UnittestHandler
 class UnittestDeclaration
 {
     public:
-        UnittestDeclaration(Unittest::FunctionPointer const fp, std::string const name)
+        UnittestDeclaration(Unittest::FunctionPointer const fp, std::string const& name)
         {
             unittest_handler.add_unittest(Unittest{fp, name});
         }
@@ -159,5 +156,5 @@ void test_##test_name(AssertionHandler &assertion_handler) \
 // Asserts
 #define ASSERT_TRUE(cond) (ASSERT_WRAPPER(cond))
 #define ASSERT_FALSE(cond) (ASSERT_WRAPPER(!(cond)))
-#define ASSERT_EQUAL(a, b) (ASSERT_WRAPPER(a == b))
+#define ASSERT_EQUAL(a, b) (ASSERT_WRAPPER((a) == (b)))
 #define ASSERT_STRING_EQUAL(a, b) (assertion_handler.assert_string_equal(a, b, __LINE__))
