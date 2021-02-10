@@ -6,8 +6,6 @@
 class AssertionHandler
 {
     public:
-        AssertionHandler() = default;
-
         void assert_condition(bool const cond, uint32_t const line_nbr, std::string const& condition_string)
         {
             if (!cond)
@@ -20,8 +18,7 @@ class AssertionHandler
 
         void assert_string_equal(std::string const& str1, std::string const& str2, uint32_t const line_nbr)
         {
-            bool const string_equal = (str1 == str2);
-            if (!string_equal)
+            if (str1 != str2)
             {
                 unittest_failed = true;
                 error_message << "Failing assert at line " << line_nbr << ". Asserting strings equal:" << std::endl;
@@ -40,7 +37,7 @@ class AssertionHandler
         }
 
     private:
-        bool unittest_failed{false};
+        bool unittest_failed = false;
         std::stringstream error_message;
 
 };
@@ -74,8 +71,14 @@ class Unittest
             return Status{unittest_failed, error_message};
         }
 
-    FunctionPointer const function_pointer;
-    std::string const name;
+        std::string get_name() const
+        {
+            return name;
+        }
+
+    private:
+        FunctionPointer const function_pointer;
+        std::string const name;
 };
 
 // Singleton class which handles the execution and output of all unittests
@@ -95,7 +98,7 @@ class UnittestHandler
             std::cout << "Running unittests..." << std::endl;
             for (Unittest const& unittest : unittest_list)
             {
-                std::cout << "Running " << unittest.name << "...";
+                std::cout << "Running " << unittest.get_name() << "...";
                 Unittest::Status status = unittest.run();
 
                 if (status.unittest_failed)

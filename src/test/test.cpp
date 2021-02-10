@@ -1,8 +1,9 @@
-#include "jump_dir_core.h"
-#include <iostream>
-#include <fstream>
-#include <cassert>
 #include "test.h"
+
+#include "jump_dir_core.h"
+#include <cassert>
+#include <fstream>
+#include <iostream>
 
 
 TEST(key_exists)

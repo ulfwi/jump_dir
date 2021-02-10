@@ -1,0 +1,12 @@
+---
+Checks: >-
+    *,
+    -modernize-use-trailing-return-type,
+    -llvm-header-guard,
+    -fuchsia-default-arguments-calls,
+    -google-runtime-references,
+    -misc-definitions-in-headers,
+    -cppcoreguidelines-macro-usage,
+    -fuchsia-statically-constructed-objects,
+    -cert-err58-cpp
+...

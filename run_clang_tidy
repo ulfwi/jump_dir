@@ -6,7 +6,8 @@ FILES="src/jump_dir_core.cpp
        src/main/get_path_from_key_main.cpp
        src/main/is_config_file_valid_main.cpp
        src/main/key_exists_main.cpp
-       src/main/remove_key_main.cpp"
+       src/main/remove_key_main.cpp
+       src/test/test.cpp"
 
 INCLUDE="-Isrc"
 
