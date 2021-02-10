@@ -1,7 +1,13 @@
 #!/bin/bash
 
-FILES="src/jump_dir_core.cpp src/main/add_key_main.cpp src/main/get_key_list_main.cpp"
-CHECKS='*,-modernize-use-trailing-return-type,-llvm-header-guard,-google-runtime-references,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-fuchsia-default-arguments-calls'
+FILES="src/jump_dir_core.cpp
+       src/main/add_key_main.cpp
+       src/main/get_key_list_main.cpp
+       src/main/get_path_from_key_main.cpp
+       src/main/is_config_file_valid_main.cpp
+       src/main/key_exists_main.cpp
+       src/main/remove_key_main.cpp"
+
 INCLUDE="-Isrc"
 
-clang-tidy $FILES --checks=$CHECKS -header-filter=.* -- $INCLUDE
+clang-tidy $FILES -header-filter=.* -- $INCLUDE

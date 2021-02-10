@@ -1,0 +1,9 @@
+---
+Checks: >-
+    *,
+    -modernize-use-trailing-return-type,
+    -llvm-header-guard,
+    -google-runtime-references,
+    -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+    -fuchsia-default-arguments-calls
+...
