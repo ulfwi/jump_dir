@@ -31,9 +31,9 @@ test_jd_list()
     actual_output=$(jd list)
 
     if [ "$actual_output" ==  "$expected_output" ]; then
-        echo "Test test_jd_list passed"
+        echo "Test ${FUNCNAME[0]} passed"
     else
-        echo "Test test_jd_list failed"
+        echo "Test ${FUNCNAME[0]} failed"
     fi
 
     teardown_test
@@ -52,9 +52,29 @@ test_jd()
     actual_dir=$PWD
 
     if [ "$actual_dir" ==  "$expected_dir" ]; then
-        echo "Test test_jd passed"
+        echo "Test ${FUNCNAME[0]} passed"
     else
-        echo "Test test_jd failed"
+        echo "Test ${FUNCNAME[0]} failed"
+    fi
+
+    teardown_test
+)
+
+test_jd_add()
+(
+    setup_test
+
+    expected_output="hejsan hoppsan"
+
+    # Run command to test
+    discard_output=$(jd add hejsan hoppsan)
+
+    actual_output=$(jd list)
+
+    if [ "$actual_dir" ==  "$expected_dir" ]; then
+        echo "Test ${FUNCNAME[0]} passed"
+    else
+        echo "Test ${FUNCNAME[0]} failed"
     fi
 
     teardown_test
@@ -63,3 +83,4 @@ test_jd()
 echo "Running integration tests..."
 test_jd_list
 test_jd
+test_jd_add
