@@ -70,13 +70,13 @@ jd()
          echo "Too few arguments"
       fi
       ;;
-   -h | --help | "")
+   -h | --help)
       echo "jd: jd [-h or --help] [add] [list] [rm or remove] [ls] [open] key [dir]"
       echo "   Use shortcuts to jump to a new directory."
       echo "   Config file: $JD_CONFIG"
       echo ""
-      echo "   jd key                     Jump to directory with key"
-      echo ""
+      echo "   jd key                     Jump to directory with key. Jumps to \$HOME"
+      echo "                              if no key is supplied."
       echo "   jd add new_key new_path    Add new shortcut"
       echo ""
       echo "   jd rm key_to_remove        Remove shortcut"
@@ -211,6 +211,10 @@ jd()
       else
          printf "No key chosen\n"
       fi
+      ;;
+   "")
+      # Jump to default cd location ($HOME)
+      cd
       ;;
    *)
       # Check if key exists

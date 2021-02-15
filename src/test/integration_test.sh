@@ -80,7 +80,27 @@ test_jd_add()
     teardown_test
 )
 
+test_jd_default()
+(
+    setup_test
+
+    # Run command to test
+    jd
+
+    expected_dir=$HOME
+    actual_dir=$PWD
+
+    if [ "$actual_dir" ==  "$expected_dir" ]; then
+        echo "Test ${FUNCNAME[0]} passed"
+    else
+        echo "Test ${FUNCNAME[0]} failed"
+    fi
+
+    teardown_test
+)
+
 echo "Running integration tests..."
 test_jd_list
 test_jd
 test_jd_add
+test_jd_default
