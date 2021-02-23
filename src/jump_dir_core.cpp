@@ -4,18 +4,13 @@
 #include <sstream>
 
 
-// Create a string containing repetitions of a character.
-// If nbr_repetitions is negative an empty string is returned
-static std::string repeat(char const character, int8_t const nbr_repetitions)
+namespace
 {
-    if (nbr_repetitions > 0)
-    {
-        return std::string(nbr_repetitions, character);
-    }
-    else
-    {
-        return std::string{};
-    }
+// Create a string containing repetitions of a character.
+std::string repeat(char const character, uint8_t const nbr_repetitions)
+{
+    return std::string(nbr_repetitions, character);
+}
 }
 
 status get_path_from_key(std::string const& config_file, std::string const& input_key, std::string& output_str)
@@ -210,10 +205,10 @@ status print_config_file(std::string const& config_file)
         return NOT_OK;
     }
 
-    int8_t const path_offset = 20;
+    constexpr int8_t path_offset = 20;
 
-    std::cout << "Key " << repeat(' ', path_offset - 4) << "Path" << std::endl;
-    std::cout << "------- " << repeat(' ', path_offset - 8) << "-------" << std::endl;
+    std::cout << "Key" << repeat(' ', std::max(path_offset - 3, 1)) << "Path" << std::endl;
+    std::cout << "-------" << repeat(' ', std::max(path_offset - 7, 1)) << "-------" << std::endl;
 
     std::string line;
     while (std::getline(infile, line))
@@ -226,7 +221,8 @@ status print_config_file(std::string const& config_file)
         if (iss >> key >> path)
         {
             // Print content of line
-            std::cout << key << " " << repeat(' ', path_offset - key.length() - 1) << path << std::endl;
+            int const nbr_spaces = path_offset - key.length();
+            std::cout << key << repeat(' ', std::max(nbr_spaces, 1)) << path << std::endl;
         }
         else
         {
