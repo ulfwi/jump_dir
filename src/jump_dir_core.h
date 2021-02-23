@@ -15,5 +15,6 @@ bool key_exists(std::string const& config_file, std::string const& input_key);
 status add_key(std::string const& config_file, std::string const& new_key, std::string const& new_path);
 status remove_key(std::string const& config_file, std::string const& key_to_remove);
 bool is_config_file_valid(std::string const& config_file);
+status print_config_file(std::string const& config_file);
 
 #endif // JUMP_DIR_CORE_H

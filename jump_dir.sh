@@ -98,7 +98,7 @@ jd()
       echo "   jd search phrase key       Search for phrase in path corresponding to key"
       ;;
    list)
-      cat $JD_CONFIG
+      $JD_DIR/bin/print_config_file $JD_CONFIG
       ;;
    rm | remove)
       if [ $NBR_ARGS -ge 2 ]; then

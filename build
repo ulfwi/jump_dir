@@ -22,4 +22,5 @@ else
     g++ src/jump_dir_core.cpp src/main/add_key_main.cpp -Isrc -o bin/add_key
     g++ src/jump_dir_core.cpp src/main/remove_key_main.cpp -Isrc -o bin/remove_key
     g++ src/jump_dir_core.cpp src/main/is_config_file_valid_main.cpp -Isrc -o bin/is_config_file_valid
+    g++ src/jump_dir_core.cpp src/main/print_config_file_main.cpp -Isrc -o bin/print_config_file
 fi

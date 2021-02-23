@@ -4,6 +4,20 @@
 #include <sstream>
 
 
+// Create a string containing repetitions of a character.
+// If nbr_repetitions is negative an empty string is returned
+static std::string repeat(char const character, int8_t const nbr_repetitions)
+{
+    if (nbr_repetitions > 0)
+    {
+        return std::string(nbr_repetitions, character);
+    }
+    else
+    {
+        return std::string{};
+    }
+}
+
 status get_path_from_key(std::string const& config_file, std::string const& input_key, std::string& output_str)
 {
     std::ifstream infile(config_file, std::ios::in);
@@ -185,4 +199,41 @@ bool is_config_file_valid(std::string const& config_file)
     }
 
     return true;
+}
+
+status print_config_file(std::string const& config_file)
+{
+    std::ifstream infile(config_file, std::ios::in);
+    if (!infile)
+    {
+        // File doesn't exist
+        return NOT_OK;
+    }
+
+    int8_t const path_offset = 20;
+
+    std::cout << "Key " << repeat(' ', path_offset - 4) << "Path" << std::endl;
+    std::cout << "------- " << repeat(' ', path_offset - 8) << "-------" << std::endl;
+
+    std::string line;
+    while (std::getline(infile, line))
+    {
+        std::istringstream iss(line, std::ios::in);
+
+        // Read words into variables
+        std::string key;
+        std::string path;
+        if (iss >> key >> path)
+        {
+            // Print content of line
+            std::cout << key << " " << repeat(' ', path_offset - key.length() - 1) << path << std::endl;
+        }
+        else
+        {
+            // std::cout << "Error while parsing file " << config_file << std::endl;
+            return NOT_OK;
+        }
+    }
+
+    return OK;
 }
