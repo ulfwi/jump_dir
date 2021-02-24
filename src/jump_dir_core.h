@@ -3,7 +3,7 @@
 
 #include <string>
 
-enum status
+enum status : int
 {
     OK = 0,
     NOT_OK = 1

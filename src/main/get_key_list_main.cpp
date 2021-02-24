@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    int return_value = 1;
+    status return_value = NOT_OK;
 
     if (argc >= 2)
     {

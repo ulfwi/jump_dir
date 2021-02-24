@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    int return_value = 1;
+    status return_value = NOT_OK;
 
     if (argc >= 3)
     {
@@ -12,11 +12,11 @@ int main(int argc, char *argv[])
         std::string const input_key = argv[2];
         if (key_exists(config_file, input_key))
         {
-            return_value = 0;
+            return_value = OK;
         }
         else
         {
-            return_value = 1;
+            return_value = NOT_OK;
         }
     }
 
