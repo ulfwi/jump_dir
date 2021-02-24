@@ -11,7 +11,7 @@ std::string repeat(char const character, uint8_t const nbr_repetitions)
 {
     return std::string(nbr_repetitions, character);
 }
-}
+} // namespace
 
 status get_path_from_key(std::string const& config_file, std::string const& input_key, std::string& output_str)
 {
