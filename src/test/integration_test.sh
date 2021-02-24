@@ -11,6 +11,9 @@ setup_test()
 
     # Create config file
     touch $JD_CONFIG
+
+    # Save name of function
+    TESTNAME=${FUNCNAME[1]}
 }
 
 teardown_test()
@@ -21,10 +24,8 @@ teardown_test()
 
 expect_eq()
 (
-    TESTNAME=$1
-
     printf "Test $TESTNAME"
-    if [ "$2" ==  "$3" ]; then
+    if [ "$1" ==  "$2" ]; then
         printf $'\033[1;32m passed \033[0m\n'
     else
         printf $'\033[1;31m failed \033[0m\n'
@@ -45,7 +46,7 @@ test_jd_list()
     expected_output="$expected_output"$'hej                 hoppsan\n'
     expected_output="$expected_output"$'man                 kan'
 
-    expect_eq ${FUNCNAME[0]} "$actual_output" "$expected_output"
+    expect_eq "$actual_output" "$expected_output"
 
     teardown_test
 )
@@ -62,7 +63,7 @@ test_jd()
     expected_dir="/home/s0001191/Pictures"
     actual_dir=$PWD
 
-    expect_eq ${FUNCNAME[0]} "$actual_dir" "$expected_dir"
+    expect_eq "$actual_dir" "$expected_dir"
 
     teardown_test
 )
@@ -78,7 +79,7 @@ test_jd_add()
 
     actual_output=$(jd list)
 
-    expect_eq ${FUNCNAME[0]} "$actual_dir" "$expected_dir"
+    expect_eq "$actual_dir" "$expected_dir"
 
     teardown_test
 )
@@ -93,7 +94,7 @@ test_jd_default()
     expected_dir=$HOME
     actual_dir=$PWD
 
-    expect_eq ${FUNCNAME[0]} "$actual_dir" "$expected_dir"
+    expect_eq "$actual_dir" "$expected_dir"
 
     teardown_test
 )
@@ -108,7 +109,7 @@ test_jd_list_empty()
     expected_output=$'Key                 Path\n'
     expected_output="$expected_output"$'-------             -------'
 
-    expect_eq ${FUNCNAME[0]} "$actual_output" "$expected_output"
+    expect_eq "$actual_output" "$expected_output"
 
     teardown_test
 )
