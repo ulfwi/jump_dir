@@ -33,10 +33,11 @@ test_jd_list()
     expected_output="$expected_output"$'hej                 hoppsan\n'
     expected_output="$expected_output"$'man                 kan'
 
+    printf "Test ${FUNCNAME[0]}"
     if [ "$actual_output" ==  "$expected_output" ]; then
-        echo "Test ${FUNCNAME[0]} passed"
+        printf $'\033[1;32m passed \033[0m\n'
     else
-        echo "Test ${FUNCNAME[0]} failed"
+        printf $'\033[1;31m failed \033[0m\n'
     fi
 
     teardown_test
@@ -54,10 +55,11 @@ test_jd()
     expected_dir="/home/s0001191/Pictures"
     actual_dir=$PWD
 
+    printf "Test ${FUNCNAME[0]}"
     if [ "$actual_dir" ==  "$expected_dir" ]; then
-        echo "Test ${FUNCNAME[0]} passed"
+        printf $'\033[1;32m passed \033[0m\n'
     else
-        echo "Test ${FUNCNAME[0]} failed"
+        printf $'\033[1;31m failed \033[0m\n'
     fi
 
     teardown_test
@@ -74,10 +76,11 @@ test_jd_add()
 
     actual_output=$(jd list)
 
+    printf "Test ${FUNCNAME[0]}"
     if [ "$actual_dir" ==  "$expected_dir" ]; then
-        echo "Test ${FUNCNAME[0]} passed"
+        printf $'\033[1;32m passed \033[0m\n'
     else
-        echo "Test ${FUNCNAME[0]} failed"
+        printf $'\033[1;31m failed \033[0m\n'
     fi
 
     teardown_test
@@ -93,10 +96,11 @@ test_jd_default()
     expected_dir=$HOME
     actual_dir=$PWD
 
+    printf "Test ${FUNCNAME[0]}"
     if [ "$actual_dir" ==  "$expected_dir" ]; then
-        echo "Test ${FUNCNAME[0]} passed"
+        printf $'\033[1;32m passed \033[0m\n'
     else
-        echo "Test ${FUNCNAME[0]} failed"
+        printf $'\033[1;31m failed \033[0m\n'
     fi
 
     teardown_test
@@ -112,10 +116,11 @@ test_jd_list_empty()
     expected_output=$'Key                 Path\n'
     expected_output="$expected_output"$'-------             -------'
 
+    printf "Test ${FUNCNAME[0]}"
     if [ "$actual_output" ==  "$expected_output" ]; then
-        echo "Test ${FUNCNAME[0]} passed"
+        printf $'\033[1;32m passed \033[0m\n'
     else
-        echo "Test ${FUNCNAME[0]} failed"
+        printf $'\033[1;31m failed \033[0m\n'
     fi
 
     teardown_test
