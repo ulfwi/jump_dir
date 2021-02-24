@@ -23,12 +23,15 @@ test_jd_list()
 (
     setup_test
 
-    expected_output=$'hej hoppsan\nman kan'
-
-    echo "$expected_output" >> $JD_CONFIG
+    echo $'hej hoppsan\nman kan' >> $JD_CONFIG
 
     # Run command to test
     actual_output=$(jd list)
+
+    expected_output=$'Key                 Path\n'
+    expected_output="$expected_output"$'-------             -------\n'
+    expected_output="$expected_output"$'hej                 hoppsan\n'
+    expected_output="$expected_output"$'man                 kan'
 
     if [ "$actual_output" ==  "$expected_output" ]; then
         echo "Test ${FUNCNAME[0]} passed"
@@ -99,8 +102,28 @@ test_jd_default()
     teardown_test
 )
 
+test_jd_list_empty()
+(
+    setup_test
+
+    # Run command to test
+    actual_output=$(jd list)
+    
+    expected_output=$'Key                 Path\n'
+    expected_output="$expected_output"$'-------             -------'
+
+    if [ "$actual_output" ==  "$expected_output" ]; then
+        echo "Test ${FUNCNAME[0]} passed"
+    else
+        echo "Test ${FUNCNAME[0]} failed"
+    fi
+
+    teardown_test
+)
+
 echo "Running integration tests..."
 test_jd_list
 test_jd
 test_jd_add
 test_jd_default
+test_jd_list_empty
