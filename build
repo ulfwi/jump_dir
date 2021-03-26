@@ -1,14 +1,15 @@
 #!/bin/bash
 # Build jump_dir binaries
 
+INCLUDE="-Isrc"
 
 if [ "$1" == "test" ]; then
     # Run tests
     mkdir -p bin/test
-    g++ src/jump_dir_core.cpp src/test/test.cpp -Isrc -o bin/test/test_jump_dir
+    g++ src/jump_dir_core.cpp src/test/test.cpp $INCLUDE -o bin/test/test_jump_dir
 
     # Generate preprocessed file
-    # g++ src/jump_dir_core.cpp src/test/test.cpp -Isrc -E >> bin/test/test_jump_dir.preprocessor.cpp
+    # g++ src/jump_dir_core.cpp src/test/test.cpp $INCLUDE -E >> bin/test/test_jump_dir.preprocessor.cpp
 
     bin/test/test_jump_dir
 
@@ -17,11 +18,11 @@ if [ "$1" == "test" ]; then
     ./src/test/integration_test.sh
 else
     mkdir -p bin
-    g++ src/jump_dir_core.cpp src/main/get_key_list_main.cpp -Isrc -o bin/get_key_list
-    g++ src/jump_dir_core.cpp src/main/get_path_from_key_main.cpp -Isrc -o bin/get_path_from_key
-    g++ src/jump_dir_core.cpp src/main/key_exists_main.cpp -Isrc -o bin/key_exists
-    g++ src/jump_dir_core.cpp src/main/add_key_main.cpp -Isrc -o bin/add_key
-    g++ src/jump_dir_core.cpp src/main/remove_key_main.cpp -Isrc -o bin/remove_key
-    g++ src/jump_dir_core.cpp src/main/is_config_file_valid_main.cpp -Isrc -o bin/is_config_file_valid
-    g++ src/jump_dir_core.cpp src/main/print_config_file_main.cpp -Isrc -o bin/print_config_file
+    g++ src/jump_dir_core.cpp src/main/get_key_list_main.cpp $INCLUDE -o bin/get_key_list
+    g++ src/jump_dir_core.cpp src/main/get_path_from_key_main.cpp $INCLUDE -o bin/get_path_from_key
+    g++ src/jump_dir_core.cpp src/main/key_exists_main.cpp $INCLUDE -o bin/key_exists
+    g++ src/jump_dir_core.cpp src/main/add_key_main.cpp $INCLUDE -o bin/add_key
+    g++ src/jump_dir_core.cpp src/main/remove_key_main.cpp $INCLUDE -o bin/remove_key
+    g++ src/jump_dir_core.cpp src/main/is_config_file_valid_main.cpp $INCLUDE -o bin/is_config_file_valid
+    g++ src/jump_dir_core.cpp src/main/print_config_file_main.cpp $INCLUDE -o bin/print_config_file
 fi

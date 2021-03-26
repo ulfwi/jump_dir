@@ -75,8 +75,9 @@ jd()
       echo "   Use shortcuts to jump to a new directory."
       echo "   Config file: $JD_CONFIG"
       echo ""
-      echo "   jd key                     Jump to directory with key. Jumps to \$HOME"
-      echo "                              if no key is supplied."
+      echo "   jd key                     Jump to directory with key. Tries cd to folder"
+      echo "                              if key is not found. Jumps to \$HOME if no key"
+      echo "                              is supplied."
       echo "   jd add new_key new_path    Add new shortcut"
       echo ""
       echo "   jd rm key_to_remove        Remove shortcut"
@@ -220,8 +221,11 @@ jd()
       # Check if key exists
       if $JD_DIR/bin/key_exists $JD_CONFIG $INPUT_ARG; then
          cd $($JD_DIR/bin/get_path_from_key $JD_CONFIG $INPUT_ARG)
+      elif [ -d "$PWD/$INPUT_ARG" ]; then
+         # Use regular cd command if key cannot be found
+         cd $INPUT_ARG
       else
-         printf "Key \'$INPUT_ARG\' does not exist\n"
+         printf "Key or folder \'$INPUT_ARG\' does not exist\n"
       fi
       ;;
    esac
