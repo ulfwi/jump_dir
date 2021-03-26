@@ -100,3 +100,5 @@ Similar functionality:
 * Add autocompletion for paths when trying to add a key.
 * The help text won't show up if the config file is invalid
 * Add check to see if binary files exists
+* It's ugly to have config files commited and to have path hardcoded.
+    * Move binaries to ~/.local/bin and config to ~/.config/jump_dir
