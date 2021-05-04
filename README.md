@@ -25,6 +25,8 @@ You might need to update some hardcoded paths in ```jump_dir.sh``` and the unit 
 
 ### Adding a shortcut
 
+```jd add new_key```
+
 ```jd add new_key new_path```
 
 ### Removing a shortcut
@@ -46,6 +48,7 @@ alias jdl
 alias jdo
 
 ```jd open```
+
 ```jd open key```
 
 ### Open file in nano

@@ -61,10 +61,17 @@ jd()
 
    case $INPUT_ARG in
    add)
-      if [ $NBR_ARGS -ge 3 ]; then
+      if [ $NBR_ARGS -ge 2 ]; then
          # Add new key to config file
          local new_key=$2
-         local new_path=$3
+
+         if [ $NBR_ARGS -eq 3 ]; then
+            local new_path=$3
+         else
+            # If no path is supplied the current directory is used
+            local new_path=$PWD
+         fi
+
          $JD_DIR/bin/add_key $JD_CONFIG $new_key $new_path
       else
          echo "Too few arguments"
@@ -78,8 +85,8 @@ jd()
       echo "   jd key                     Jump to directory with key. Tries cd to folder"
       echo "                              if key is not found. Jumps to \$HOME if no key"
       echo "                              is supplied."
-      echo "   jd add new_key new_path    Add new shortcut"
-      echo ""
+      echo "   jd add new_key [new_path]  Add new shortcut. If no path is supplied the"
+      echo "                              current working directory is used."
       echo "   jd rm key_to_remove        Remove shortcut"
       echo ""
       echo "   jd list                    List current shortcuts"

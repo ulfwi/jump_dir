@@ -84,6 +84,22 @@ test_jd_add()
     teardown_test
 )
 
+test_jd_add_default()
+(
+    setup_test
+
+    expected_output="hejsan $PWD"
+
+    # Run command to test
+    discard_output=$(jd add hejsan)
+
+    actual_output=$(jd list)
+
+    expect_eq "$actual_dir" "$expected_dir"
+
+    teardown_test
+)
+
 test_jd_default()
 (
     setup_test
@@ -118,5 +134,6 @@ echo "Running integration tests..."
 test_jd_list
 test_jd
 test_jd_add
+test_jd_add_default
 test_jd_default
 test_jd_list_empty
