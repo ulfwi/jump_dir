@@ -29,7 +29,7 @@ expect_eq()
         printf $'\033[1;32m passed \033[0m\n'
     else
         printf $'\033[1;31m failed \033[0m\n'
-    fi 
+    fi
 )
 
 test_jd_list()
@@ -121,7 +121,7 @@ test_jd_list_empty()
 
     # Run command to test
     actual_output=$(jd list)
-    
+
     expected_output=$'Key                 Path\n'
     expected_output="$expected_output"$'-------             -------'
 
