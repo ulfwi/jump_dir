@@ -60,23 +60,6 @@ jd()
    local NBR_ARGS=$#
 
    case $INPUT_ARG in
-   add)
-      if [ $NBR_ARGS -ge 2 ]; then
-         # Add new key to config file
-         local new_key=$2
-
-         if [ $NBR_ARGS -eq 3 ]; then
-            local new_path=$3
-         else
-            # If no path is supplied the current directory is used
-            local new_path=$PWD
-         fi
-
-         $JD_DIR/bin/add_key $JD_CONFIG $new_key $new_path
-      else
-         echo "Too few arguments"
-      fi
-      ;;
    -h | --help)
       echo "jd: jd [-h or --help] [add] [list] [rm or remove] [ls] [open] key [dir]"
       echo "   Use shortcuts to jump to a new directory."
@@ -102,6 +85,23 @@ jd()
       echo "   jd vscode key              Open path corresponding to key with vscode If no"
       echo "                              key is supplied the current dir is opened."
       echo "   jd cat key                 Display contents of file corresponding to key"
+      ;;
+   add)
+      if [ $NBR_ARGS -ge 2 ]; then
+         # Add new key to config file
+         local new_key=$2
+
+         if [ $NBR_ARGS -eq 3 ]; then
+            local new_path=$3
+         else
+            # If no path is supplied the current directory is used
+            local new_path=$PWD
+         fi
+
+         $JD_DIR/bin/add_key $JD_CONFIG $new_key $new_path
+      else
+         echo "Too few arguments"
+      fi
       ;;
    list)
       $JD_DIR/bin/print_config_file $JD_CONFIG
