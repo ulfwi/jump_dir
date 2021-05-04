@@ -7,7 +7,7 @@ JD_CONFIG=$JD_DIR"/jump_dir.config"
 
 _jd()
 {
-   local OPTIONS="add ls rm remove list open nano show vscode cat search -h --help"
+   local OPTIONS="add ls rm remove list open nano show vscode cat -h --help"
    local KEYS="$($JD_DIR/bin/get_key_list $JD_CONFIG)"
 
    local options_array=($OPTIONS)
@@ -95,8 +95,6 @@ jd()
       echo "   jd vscode key              Open path corresponding to key with vscode If no"
       echo "                              key is supplied the current dir is opened."
       echo "   jd cat key                 Display contents of file corresponding to key"
-      echo ""
-      echo "   jd search phrase key       Search for phrase in path corresponding to key"
       ;;
    list)
       $JD_DIR/bin/print_config_file $JD_CONFIG
@@ -200,19 +198,6 @@ jd()
          printf "No key chosen\n"
       fi
       ;;
-   search)
-      if [ $NBR_ARGS -ge 3 ]; then
-         local phrase=$2
-         local key=$3
-         if $JD_DIR/bin/key_exists $JD_CONFIG $key; then
-            search $phrase $($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
-         else
-            printf "Key \'$key\' does not exist\n"
-         fi
-      else
-         printf "No key chosen\n"
-      fi
-      ;;
    "")
       # Jump to default cd location ($HOME)
       cd
@@ -246,7 +231,7 @@ jdn()
    jd nano $@
 )
 
-jdw()
+jds()
 (
    jd show $@
 )
@@ -261,17 +246,11 @@ jdc()
    jd cat $@
 )
 
-jds()
-(
-   jd search $@
-)
-
 # Add keys to bash completion
 complete -F _jd jd
 complete -F _jd_alias jdo
 complete -F _jd_alias jdl
 complete -F _jd_alias jdn
-complete -F _jd_alias jdw
+complete -F _jd_alias jds
 complete -F _jd_alias jdv
 complete -F _jd_alias jdc
-complete -F _jd_alias jds

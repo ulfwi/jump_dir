@@ -56,7 +56,7 @@ alias jdn
 
 ### Show path from key
 
-alias jdw
+alias jds
 
 ```jd show key```
 
@@ -71,12 +71,6 @@ alias jdv
 alias jdc
 
 ```jd cat key```
-
-### search for phrase in path from key
-
-alias jds
-
-```jd search phrase key```
 
 
 ## Building binaries
