@@ -8,9 +8,9 @@ int main(int argc, char *argv[])
 
     if (argc >= 4)
     {
-        std::string const config_file = argv[1];
-        std::string const new_key = argv[2];
-        std::string const new_path = argv[3];
+        std::string const config_file{argv[1]};
+        std::string const new_key{argv[2]};
+        std::string const new_path{argv[3]};
         return_value = add_key(config_file, new_key, new_path);
         if (return_value == OK)
         {

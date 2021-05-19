@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
     if (argc >= 2)
     {
-        std::string const config_file = argv[1];
+        std::string const config_file{argv[1]};
         if (is_config_file_valid(config_file))
         {
             return_value = OK;

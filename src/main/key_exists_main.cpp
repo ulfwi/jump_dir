@@ -8,8 +8,8 @@ int main(int argc, char *argv[])
 
     if (argc >= 3)
     {
-        std::string const config_file = argv[1];
-        std::string const input_key = argv[2];
+        std::string const config_file{argv[1]};
+        std::string const input_key{argv[2]};
         if (key_exists(config_file, input_key))
         {
             return_value = OK;

@@ -8,8 +8,8 @@ int main(int argc, char *argv[])
 
     if (argc >= 3)
     {
-        std::string const config_file = argv[1];
-        std::string const key_to_remove = argv[2];
+        std::string const config_file{argv[1]};
+        std::string const key_to_remove{argv[2]};
         return_value = remove_key(config_file, key_to_remove);
         if (return_value == NOT_OK)
         {

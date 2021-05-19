@@ -155,7 +155,7 @@ jd()
             elif [[ -d $path ]]; then
                echo "$path is a directory"
             else
-               echo "$path is not valid"
+               echo "$path: No such file or directory"
             fi
          else
             printf "Key \'$key\' does not exist\n"
@@ -172,7 +172,7 @@ jd()
             if [[ -d $path ]] || [[ -f $path ]]; then
                code -n $path
             else
-               echo "$path is not valid"
+               echo "$path: No such file or directory"
             fi
          else
             printf "Key \'$key\' does not exist\n"
