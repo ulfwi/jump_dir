@@ -47,6 +47,19 @@ _jd_alias()
    COMPREPLY=( $(compgen -W "${autocomplete_list}" -- ${current_word}) )
 }
 
+_define_jd_variables()
+{
+   local KEYS="$($JD_DIR/bin/get_key_list $JD_CONFIG)"
+
+   for key in $KEYS
+   do
+      local key_upper_case=${key^^}
+      local variable_name=JD_$key_upper_case
+      local path=$($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
+      declare -g "${variable_name}"="$path"
+   done
+}
+
 
 jd()
 {
@@ -261,3 +274,6 @@ complete -F _jd_alias jdn
 complete -F _jd_alias jds
 complete -F _jd_alias jdv
 complete -F _jd_alias jdc
+
+# Add variables containing paths
+_define_jd_variables

@@ -76,6 +76,10 @@ alias jdc
 ```jd cat key```
 
 
+## Variables
+
+All keys will have variables defined on the form $JD_KEY
+
 ## Building binaries
 
 ```./build```
