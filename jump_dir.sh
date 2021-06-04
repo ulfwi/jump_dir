@@ -74,7 +74,7 @@ jd()
 
    case $INPUT_ARG in
    -h | --help)
-      echo "jd: jd [-h or --help] [add] [list] [rm or remove] [ls] [open] key [dir]"
+      echo "jd: jd [-h or --help] [add] [list] [rm or remove] [ls] [open] [nano] [show] [vscode] [cat] key [dir]"
       echo "   Use shortcuts to jump to a new directory."
       echo "   Config file: $JD_CONFIG"
       echo ""
@@ -95,7 +95,7 @@ jd()
       echo ""
       echo "   jd show key                Show path corresponding to key"
       echo ""
-      echo "   jd vscode key              Open path corresponding to key with vscode If no"
+      echo "   jd vscode key              Open path corresponding to key with vscode. If no"
       echo "                              key is supplied the current dir is opened."
       echo "   jd cat key                 Display contents of file corresponding to key"
       ;;
