@@ -6,10 +6,10 @@ INCLUDE="-Isrc"
 if [ "$1" == "test" ]; then
     # Run tests
     mkdir -p bin/test
-    g++ src/jump_dir_core.cpp src/test/test.cpp $INCLUDE -o bin/test/test_jump_dir
+    g++ -std=c++11 src/jump_dir_core.cpp src/test/test.cpp $INCLUDE -o bin/test/test_jump_dir
 
     # Generate preprocessed file
-    # g++ src/jump_dir_core.cpp src/test/test.cpp $INCLUDE -E >> bin/test/test_jump_dir.preprocessor.cpp
+    # g++ -std=c++11 src/jump_dir_core.cpp src/test/test.cpp $INCLUDE -E >> bin/test/test_jump_dir.preprocessor.cpp
 
     bin/test/test_jump_dir
 
@@ -20,15 +20,15 @@ else
     mkdir -p bin
 
     # Build object file for core
-    g++ -Wall -c src/jump_dir_core.cpp -o bin/jump_dir_core.o
+    g++ -std=c++11 -Wall -c src/jump_dir_core.cpp -o bin/jump_dir_core.o
 
-    g++ -Wall bin/jump_dir_core.o src/main/get_key_list_main.cpp $INCLUDE -o bin/get_key_list
-    g++ -Wall bin/jump_dir_core.o src/main/get_path_from_key_main.cpp $INCLUDE -o bin/get_path_from_key
-    g++ -Wall bin/jump_dir_core.o src/main/key_exists_main.cpp $INCLUDE -o bin/key_exists
-    g++ -Wall bin/jump_dir_core.o src/main/add_key_main.cpp $INCLUDE -o bin/add_key
-    g++ -Wall bin/jump_dir_core.o src/main/remove_key_main.cpp $INCLUDE -o bin/remove_key
-    g++ -Wall bin/jump_dir_core.o src/main/is_config_file_valid_main.cpp $INCLUDE -o bin/is_config_file_valid
-    g++ -Wall bin/jump_dir_core.o src/main/print_config_file_main.cpp $INCLUDE -o bin/print_config_file
+    g++ -std=c++11 -Wall bin/jump_dir_core.o src/main/get_key_list_main.cpp $INCLUDE -o bin/get_key_list
+    g++ -std=c++11 -Wall bin/jump_dir_core.o src/main/get_path_from_key_main.cpp $INCLUDE -o bin/get_path_from_key
+    g++ -std=c++11 -Wall bin/jump_dir_core.o src/main/key_exists_main.cpp $INCLUDE -o bin/key_exists
+    g++ -std=c++11 -Wall bin/jump_dir_core.o src/main/add_key_main.cpp $INCLUDE -o bin/add_key
+    g++ -std=c++11 -Wall bin/jump_dir_core.o src/main/remove_key_main.cpp $INCLUDE -o bin/remove_key
+    g++ -std=c++11 -Wall bin/jump_dir_core.o src/main/is_config_file_valid_main.cpp $INCLUDE -o bin/is_config_file_valid
+    g++ -std=c++11 -Wall bin/jump_dir_core.o src/main/print_config_file_main.cpp $INCLUDE -o bin/print_config_file
 
     rm bin/jump_dir_core.o
 fi
