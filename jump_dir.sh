@@ -5,10 +5,15 @@
 JD_DIR="/home/s0001191/repos/jump_dir"
 JD_CONFIG=$JD_DIR"/jump_dir.config"
 
+_jd_run()
+{
+   $JD_DIR/bin/jd_run $@
+}
+
 _jd()
 {
    local OPTIONS="add ls rm remove list open nano show vscode cat -h --help"
-   local KEYS="$($JD_DIR/bin/get_key_list $JD_CONFIG)"
+   local KEYS="$(_jd_run get_key_list $JD_CONFIG)"
 
    local options_array=($OPTIONS)
 
@@ -39,7 +44,7 @@ _jd_alias()
 
    local autocomplete_list=""
    if [[ "$COMP_CWORD" -eq 1 ]]; then
-      autocomplete_list="$($JD_DIR/bin/get_key_list $JD_CONFIG)"
+      autocomplete_list="$(_jd_run get_key_list $JD_CONFIG)"
    else
       autocomplete_list=""
    fi
@@ -49,13 +54,13 @@ _jd_alias()
 
 _define_jd_variables()
 {
-   local KEYS="$($JD_DIR/bin/get_key_list $JD_CONFIG)"
+   local KEYS="$(_jd_run get_key_list $JD_CONFIG)"
 
    for key in $KEYS
    do
       local key_upper_case=${key^^}
       local variable_name=JD_$key_upper_case
-      local path=$($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
+      local path=$(_jd_run get_path_from_key $JD_CONFIG $key)
       declare -g "${variable_name}"="$path"
    done
 }
@@ -64,7 +69,7 @@ _define_jd_variables()
 jd()
 {
    # Check if config file is valid
-   if ! $JD_DIR/bin/is_config_file_valid $JD_CONFIG ; then
+   if ! _jd_run is_config_file_valid $JD_CONFIG ; then
       printf "Warning! Invalid config file: \'$JD_CONFIG\'.\n"
       return
    fi
@@ -111,18 +116,18 @@ jd()
             local new_path=$PWD
          fi
 
-         $JD_DIR/bin/add_key $JD_CONFIG $new_key $new_path
+         _jd_run add_key $JD_CONFIG $new_key $new_path
       else
          echo "Too few arguments"
       fi
       ;;
    list)
-      $JD_DIR/bin/print_config_file $JD_CONFIG
+      _jd_run print_config_file $JD_CONFIG
       ;;
    rm | remove)
       if [ $NBR_ARGS -ge 2 ]; then
          local key_to_remove=$2
-         $JD_DIR/bin/remove_key $JD_CONFIG $key_to_remove
+         _jd_run remove_key $JD_CONFIG $key_to_remove
       else
          echo "Too few arguments"
       fi
@@ -131,8 +136,8 @@ jd()
       if [ $NBR_ARGS -ge 2 ]; then
          # Check if key exists
          local key=$2
-         if $JD_DIR/bin/key_exists $JD_CONFIG $key; then
-            ll $($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
+         if _jd_run key_exists $JD_CONFIG $key; then
+            ll $(_jd_run get_path_from_key $JD_CONFIG $key)
          else
             printf "Key \'$key\' does not exist\n"
          fi
@@ -143,8 +148,8 @@ jd()
    open)
       if [ $NBR_ARGS -ge 2 ]; then
          local key=$2
-         if $JD_DIR/bin/key_exists $JD_CONFIG $key; then
-            xdg-open $($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
+         if _jd_run key_exists $JD_CONFIG $key; then
+            xdg-open $(_jd_run get_path_from_key $JD_CONFIG $key)
          else
             printf "Key \'$key\' does not exist\n"
          fi
@@ -155,8 +160,8 @@ jd()
    nano)
       if [ $NBR_ARGS -ge 2 ]; then
          local key=$2
-         if $JD_DIR/bin/key_exists $JD_CONFIG $key; then
-            local path=$($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
+         if _jd_run key_exists $JD_CONFIG $key; then
+            local path=$(_jd_run get_path_from_key $JD_CONFIG $key)
             if [[ -f $path ]]; then
                # Check if we need root access to edit file
                local file_owner=$(stat --format '%U' $path)
@@ -180,8 +185,8 @@ jd()
    vscode)
       if [ $NBR_ARGS -ge 2 ]; then
          local key=$2
-         if $JD_DIR/bin/key_exists $JD_CONFIG $key; then
-            local path=$($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
+         if _jd_run key_exists $JD_CONFIG $key; then
+            local path=$(_jd_run get_path_from_key $JD_CONFIG $key)
             if [[ -d $path ]] || [[ -f $path ]]; then
                code -n $path
             else
@@ -197,8 +202,8 @@ jd()
    show)
       if [ $NBR_ARGS -ge 2 ]; then
          local key=$2
-         if $JD_DIR/bin/key_exists $JD_CONFIG $key; then
-            printf $($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
+         if _jd_run key_exists $JD_CONFIG $key; then
+            printf $(_jd_run get_path_from_key $JD_CONFIG $key)
          else
             printf "Key \'$key\' does not exist\n"
          fi
@@ -209,8 +214,8 @@ jd()
    cat)
       if [ $NBR_ARGS -ge 2 ]; then
          local key=$2
-         if $JD_DIR/bin/key_exists $JD_CONFIG $key; then
-            cat $($JD_DIR/bin/get_path_from_key $JD_CONFIG $key)
+         if _jd_run key_exists $JD_CONFIG $key; then
+            cat $(_jd_run get_path_from_key $JD_CONFIG $key)
          else
             printf "Key \'$key\' does not exist\n"
          fi
@@ -224,8 +229,8 @@ jd()
       ;;
    *)
       # Check if key exists
-      if $JD_DIR/bin/key_exists $JD_CONFIG $INPUT_ARG; then
-         cd $($JD_DIR/bin/get_path_from_key $JD_CONFIG $INPUT_ARG)
+      if _jd_run key_exists $JD_CONFIG $INPUT_ARG; then
+         cd $(_jd_run get_path_from_key $JD_CONFIG $INPUT_ARG)
       elif [ -d "$PWD/$INPUT_ARG" ]; then
          # Use regular cd command if key cannot be found
          cd $INPUT_ARG
