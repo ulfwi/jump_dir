@@ -96,7 +96,6 @@ Similar functionality:
 
 ## TODO
 
-* Add check so that we don't try to add keys with names that are the same as the options (or config or dir)
 * Add color to prints? https://github.com/owenthereal/ccat
 * Add autocompletion for paths when trying to add a key.
 * The help text won't show up if the config file is invalid

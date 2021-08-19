@@ -7,6 +7,7 @@ JD_CONFIG=$JD_DIR"/jump_dir.config"
 
 _jd_run()
 {
+   # Call the jump dir binary
    $JD_DIR/bin/jd_run $@
 }
 
@@ -109,14 +110,22 @@ jd()
          # Add new key to config file
          local new_key=$2
 
-         if [ $NBR_ARGS -eq 3 ]; then
-            local new_path=$3
-         else
-            # If no path is supplied the current directory is used
-            local new_path=$PWD
-         fi
+         # Check that we don't try to add keys with the same name as options
+         case $new_key in
+            add|rm|remove|list|ls|open|nano|show|vscode|cat|dir|config)
+               echo "Invalid key name"
+               ;;
+            *)
+               if [ $NBR_ARGS -eq 3 ]; then
+                  local new_path=$3
+               else
+                  # If no path is supplied the current directory is used
+                  local new_path=$PWD
+               fi
 
-         _jd_run add_key $JD_CONFIG $new_key $new_path
+               _jd_run add_key $JD_CONFIG $new_key $new_path
+               ;;
+         esac
       else
          echo "Too few arguments"
       fi
