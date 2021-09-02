@@ -5,5 +5,10 @@ Checks: >-
     -llvm-header-guard,
     -google-runtime-references,
     -cppcoreguidelines-pro-bounds-pointer-arithmetic,
-    -fuchsia-default-arguments-calls
+    -fuchsia-default-arguments-calls,
+    -cppcoreguidelines-avoid-c-arrays,
+    -hicpp-avoid-c-arrays,
+    -modernize-avoid-c-arrays,
+    -cppcoreguidelines-avoid-magic-numbers,
+    -readability-magic-numbers,
 ...

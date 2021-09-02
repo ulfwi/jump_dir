@@ -205,7 +205,7 @@ status print_config_file(std::string const& config_file)
         return NOT_OK;
     }
 
-    constexpr int8_t path_offset = 20;
+    constexpr int path_offset = 20;
 
     std::cout << "Key" << repeat(' ', std::max(path_offset - 3, 1)) << "Path" << std::endl;
     std::cout << "-------" << repeat(' ', std::max(path_offset - 7, 1)) << "-------" << std::endl;
@@ -221,7 +221,7 @@ status print_config_file(std::string const& config_file)
         if (iss >> key >> path)
         {
             // Print content of line
-            int const nbr_spaces = path_offset - key.length();
+            int const nbr_spaces = path_offset - static_cast<int>(key.length());
             std::cout << key << repeat(' ', std::max(nbr_spaces, 1)) << path << std::endl;
         }
         else

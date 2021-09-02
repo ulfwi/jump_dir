@@ -21,7 +21,7 @@ status key_exists_main(int argc, char *argv[])
         }
     }
 
-    return return_value; 
+    return return_value;
 }
 
 status get_key_list_main(int argc, char *argv[])
@@ -57,7 +57,7 @@ status add_key_main(int argc, char *argv[])
         {
             std::string path;
             get_path_from_key(config_file, new_key, path);
-            std::cout <<  "Key \'" << new_key << "\' already exists with path \'" << path << "\'" << std::endl;
+            std::cout << "Key \'" << new_key << "\' already exists with path \'" << path << "\'" << std::endl;
         }
     }
 

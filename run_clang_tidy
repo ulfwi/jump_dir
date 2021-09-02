@@ -1,13 +1,7 @@
 #!/bin/bash
 
 FILES="src/jump_dir_core.cpp
-       src/main/add_key_main.cpp
-       src/main/get_key_list_main.cpp
-       src/main/get_path_from_key_main.cpp
-       src/main/is_config_file_valid_main.cpp
-       src/main/key_exists_main.cpp
-       src/main/remove_key_main.cpp
-       src/main/print_config_file_main.cpp
+       src/jump_dir_run.cpp
        src/test/test.cpp"
 
 INCLUDE="-Isrc"
