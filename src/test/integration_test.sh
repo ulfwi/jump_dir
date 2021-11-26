@@ -1,10 +1,11 @@
 
 TEST_DIR="$(dirname "$(readlink -f "$0")")"
+JD_DIR=$(cat ~/.config/jump_dir/jump_dir_bin.config)
 
 setup_test()
 {
     # Import the jd commands
-    source /home/s0001191/repos/jump_dir/jump_dir.sh
+    source $JD_DIR/jump_dir.sh
 
     # Change the config file
     JD_CONFIG="$TEST_DIR/test_config.config"
@@ -55,12 +56,12 @@ test_jd()
 (
     setup_test
 
-    echo "pictures /home/s0001191/Pictures" >> $JD_CONFIG
+    echo "pictures $JD_DIR" >> $JD_CONFIG
 
     # Run command to test
     jd pictures
 
-    expected_dir="/home/s0001191/Pictures"
+    expected_dir="$JD_DIR"
     actual_dir=$PWD
 
     expect_eq "$actual_dir" "$expected_dir"

@@ -11,15 +11,13 @@ To setup jump dir you should run
 
 ```./setup```
 
-and add the following line to .bashrc (or similar):
+This builds the binaries and creates the config files. Also add the following line to .bashrc (or similar):
 
 ```source /path/to/jump_dir/jump_dir.sh```
 
 This adds the function jd() which runs the script in the current shell. This is needed to be able to change directory. If you run the script in a separate shell it will only change directory for that shell, not your current shell.
 
 The script also reads the jump_dir.config file and adds all keys to bash completion.
-
-You might need to update some hardcoded paths in the unit tests (e.g. JD_DIR).
 
 ## How to use
 
