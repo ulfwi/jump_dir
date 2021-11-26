@@ -1,0 +1,24 @@
+#!/bin/bash
+# Build binaries and set up config files
+
+CONFIG_DIR=~/.config/jump_dir
+JD_CONFIG=$CONFIG_DIR/jump_dir.config
+JD_CONFIG_BIN=$CONFIG_DIR/jump_dir_bin.config
+JD_DIR=$PWD
+
+echo "Building binaries to $JD_DIR/bin/"
+./build
+
+# Create config file
+mkdir -p $CONFIG_DIR
+touch $JD_CONFIG
+touch $JD_CONFIG_BIN
+
+# Add first key
+echo "jdconfig $JD_CONFIG" >> $JD_CONFIG
+
+# Add JD_DIR to config
+echo $JD_DIR > $JD_CONFIG_BIN
+
+echo "jump_dir directory set up in: "$JD_DIR/
+echo "Config files set up in:       "$CONFIG_DIR/

@@ -7,7 +7,11 @@ You can also store shortcuts to files here and open them in nano.
 
 ## Setup
 
-To setup jump dir you should add the following line to .bashrc (or similar):
+To setup jump dir you should run
+
+```./setup```
+
+and add the following line to .bashrc (or similar):
 
 ```source /path/to/jump_dir/jump_dir.sh```
 
@@ -15,7 +19,7 @@ This adds the function jd() which runs the script in the current shell. This is 
 
 The script also reads the jump_dir.config file and adds all keys to bash completion.
 
-You might need to update some hardcoded paths in ```jump_dir.sh``` and the unit tests (e.g. JD_DIR).
+You might need to update some hardcoded paths in the unit tests (e.g. JD_DIR).
 
 ## How to use
 
@@ -100,5 +104,4 @@ Similar functionality:
 * Add autocompletion for paths when trying to add a key.
 * The help text won't show up if the config file is invalid
 * Add check to see if binary files exists
-* It's ugly to have config files commited and to have path hardcoded.
-    * Move binaries to ~/.local/bin and config to ~/.config/jump_dir
+* Move binaries to ~/.local/bin
