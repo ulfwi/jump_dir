@@ -104,6 +104,7 @@ Similar functionality:
 
 * Add color to prints? https://github.com/owenthereal/ccat
 * Add autocompletion for paths when trying to add a key. Also when trying to copy file.
+* Add functionality to copy multiple files with jd cp.
 * The help text won't show up if the config file is invalid
 * Add check to see if binary files exists
 * Move binaries to ~/.local/bin

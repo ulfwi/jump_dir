@@ -13,13 +13,14 @@ _jd_run()
 
 _jd()
 {
-   local OPTIONS="add ls rm remove list open nano show vscode cat -h --help"
+   local OPTIONS="add ls rm remove list open nano show vscode cat cp -h --help"
    local KEYS="$(_jd_run get_key_list $JD_CONFIG)"
 
    local options_array=($OPTIONS)
 
    local current_word="${COMP_WORDS[COMP_CWORD]}"
    local prev_word="${COMP_WORDS[COMP_CWORD-1]}"
+   local jd_option="${COMP_WORDS[1]}"
 
    local autocomplete_list=""
    if [[ "${options_array[@]}" =~ "${prev_word}" ]] && [[ "$COMP_CWORD" -eq 2 ]]; then
@@ -33,6 +34,11 @@ _jd()
       autocomplete_list="$OPTIONS $KEYS"
    else
       autocomplete_list=""
+   fi
+
+   if [ "${jd_option}" == "cp" ]; then
+      FILES=$(ls | tr '\n' ' ')
+      autocomplete_list="$FILES $KEYS"
    fi
 
    # Array of words to complete
