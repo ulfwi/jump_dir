@@ -80,7 +80,7 @@ jd()
 
    case $INPUT_ARG in
    -h | --help)
-      echo "jd: jd [-h or --help] [add] [list] [rm or remove] [ls] [open] [nano] [show] [vscode] [cat] key [dir]"
+      echo "jd: jd [-h or --help] [add] [list] [rm or remove] [ls] [open] [nano] [show] [vscode] [cat] [cp] key [dir]"
       echo "   Use shortcuts to jump to a new directory."
       echo "   Config file: $JD_CONFIG"
       echo ""
@@ -104,6 +104,8 @@ jd()
       echo "   jd vscode key              Open path corresponding to key with vscode. If no"
       echo "                              key is supplied the current dir is opened."
       echo "   jd cat key                 Display contents of file corresponding to key"
+      echo ""
+      echo "   jd cp file key             Copy file to directory with key."
       ;;
    add)
       if [ $NBR_ARGS -ge 2 ]; then
@@ -112,7 +114,7 @@ jd()
 
          # Check that we don't try to add keys with the same name as options
          case $new_key in
-            add|rm|remove|list|ls|open|nano|show|vscode|cat|dir|config)
+            add|rm|remove|list|ls|open|nano|show|vscode|cat|cp|dir|config)
                echo "Invalid key name"
                ;;
             *)
@@ -230,6 +232,24 @@ jd()
          fi
       else
          printf "No key chosen\n"
+      fi
+      ;;
+   cp)
+      if [ $NBR_ARGS -ge 3 ]; then
+         local file=$2
+         local key=$3
+         if _jd_run key_exists $JD_CONFIG $key; then
+            local path=$(_jd_run get_path_from_key $JD_CONFIG $key)
+            if [[ -d $path ]]; then
+               rsync --human-readable --progress $file $path
+            else
+               echo "$path is not a directory."
+            fi
+         else
+            printf "Key \'$key\' does not exist\n"
+         fi
+      else
+         printf "Too few arguments\n"
       fi
       ;;
    "")

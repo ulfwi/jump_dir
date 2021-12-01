@@ -77,6 +77,10 @@ alias jdc
 
 ```jd cat key```
 
+### Copy file to key
+
+```jd cp file key```
+
 
 ## Variables
 
@@ -99,7 +103,7 @@ Similar functionality:
 ## TODO
 
 * Add color to prints? https://github.com/owenthereal/ccat
-* Add autocompletion for paths when trying to add a key.
+* Add autocompletion for paths when trying to add a key. Also when trying to copy file.
 * The help text won't show up if the config file is invalid
 * Add check to see if binary files exists
 * Move binaries to ~/.local/bin
