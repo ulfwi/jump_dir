@@ -125,7 +125,8 @@ jd()
                ;;
             *)
                if [ $NBR_ARGS -eq 3 ]; then
-                  local new_path=$3
+                  # Get absolute path to file
+                  local new_path=$(realpath $3)
                else
                   # If no path is supplied the current directory is used
                   local new_path=$PWD
